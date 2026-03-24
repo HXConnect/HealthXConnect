@@ -1,0 +1,38 @@
+{
+  "short_name": "HXConnect",
+  "name": "HXConnect — Healthcare Professional Network",
+  "description": "Stay connected with your healthcare community. Access jobs, chat, resources, and networking — all from your phone.",
+  "icons": [
+    {
+      "src": "icon-192.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-512.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#1a1218",
+  "background_color": "#1a1218",
+  "orientation": "portrait",
+  "scope": "/",
+  "categories": ["health", "medical", "social"]
+}
