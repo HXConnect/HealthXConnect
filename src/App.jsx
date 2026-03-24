@@ -1171,22 +1171,22 @@ export default function App(){
           )}
 
           <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap"}}>
-            <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:10,background:COLORS.surface,border:`1px solid ${COLORS.border}`,borderRadius:12,padding:"12px 24px",cursor:"pointer",textDecoration:"none",transition:"border-color 0.2s,transform 0.2s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=COLORS.accent;e.currentTarget.style.transform="translateY(-2px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=COLORS.border;e.currentTarget.style.transform="translateY(0)";}}>
+            <div style={{display:"inline-flex",alignItems:"center",gap:10,background:COLORS.surface,border:`1px solid ${COLORS.border}`,borderRadius:12,padding:"12px 24px",opacity:0.55,position:"relative"}}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill={COLORS.text}><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
               <div style={{textAlign:"left"}}>
-                <div style={{fontSize:9,color:COLORS.muted,letterSpacing:1,textTransform:"uppercase",lineHeight:1}}>Download on the</div>
-                <div style={{fontSize:16,fontWeight:700,color:COLORS.text,lineHeight:1.3}}>App Store</div>
+                <div style={{fontSize:9,color:COLORS.muted,letterSpacing:1,textTransform:"uppercase",lineHeight:1}}>App Store</div>
+                <div style={{fontSize:14,fontWeight:700,color:COLORS.gold,lineHeight:1.3}}>Coming Soon</div>
               </div>
-            </a>
-            <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:10,background:COLORS.surface,border:`1px solid ${COLORS.border}`,borderRadius:12,padding:"12px 24px",cursor:"pointer",textDecoration:"none",transition:"border-color 0.2s,transform 0.2s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=COLORS.accent;e.currentTarget.style.transform="translateY(-2px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=COLORS.border;e.currentTarget.style.transform="translateY(0)";}}>
+            </div>
+            <div style={{display:"inline-flex",alignItems:"center",gap:10,background:COLORS.surface,border:`1px solid ${COLORS.border}`,borderRadius:12,padding:"12px 24px",opacity:0.55,position:"relative"}}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3.61 1.814L13.793 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.61-.92z" fill="#4285F4"/><path d="M17.244 8.545L5.698.872c-.29-.172-.6-.272-.896-.312L14.793 10.55l2.451-2.005z" fill="#EA4335"/><path d="M17.244 15.455L14.793 13.45 4.802 23.44c.296-.04.606-.14.896-.312l11.546-7.673z" fill="#34A853"/><path d="M20.39 12c0-.69-.36-1.31-.94-1.69l-2.206-1.465-2.451 2.005L17.244 12.855l2.206-1.165c.58-.38.94-1 .94-1.69z" fill="#FBBC05"/></svg>
               <div style={{textAlign:"left"}}>
-                <div style={{fontSize:9,color:COLORS.muted,letterSpacing:1,textTransform:"uppercase",lineHeight:1}}>Get it on</div>
-                <div style={{fontSize:16,fontWeight:700,color:COLORS.text,lineHeight:1.3}}>Google Play</div>
+                <div style={{fontSize:9,color:COLORS.muted,letterSpacing:1,textTransform:"uppercase",lineHeight:1}}>Google Play</div>
+                <div style={{fontSize:14,fontWeight:700,color:COLORS.gold,lineHeight:1.3}}>Coming Soon</div>
               </div>
-            </a>
+            </div>
           </div>
-          <div style={{marginTop:16,fontSize:11,color:COLORS.mutedDim,lineHeight:1.6}}>Native app store listings coming soon — <strong style={{color:COLORS.muted}}>Install now</strong> as a PWA for the full experience</div>
+          <div style={{marginTop:16,fontSize:12,color:COLORS.muted,lineHeight:1.6,maxWidth:440,margin:"16px auto 0"}}>Use the <strong style={{color:COLORS.accent}}>Install App</strong> button above to add HXConnect to your home screen right now. It works just like a native app — offline support, instant launch, and full-screen experience.</div>
           <div style={{marginTop:8,fontSize:10,color:COLORS.mutedDim}}>Works on iOS (Safari), Android (Chrome), Windows & Mac</div>
         </div>
       </div>
