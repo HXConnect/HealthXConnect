@@ -1024,9 +1024,33 @@ export default function App(){
   const [isPro,setIsPro]=useState(false);
   const [upgradeFeature,setUpgradeFeature]=useState(null);
   const [toast,setToast]=useState(null);
+  const [deferredPrompt,setDeferredPrompt]=useState(null);
+  const [isInstalled,setIsInstalled]=useState(false);
   const toast2=(m)=>{setToast(m);setTimeout(()=>setToast(null),2500);};
   const handleUpgrade=()=>{setIsPro(true);setUpgradeFeature(null);toast2("🎉 Welcome to Pro! All features unlocked.");};
   const handleOnboardComplete=(data)=>{setUser(data);setHasOnboarded(true);};
+
+  // Register service worker & capture install prompt
+  useEffect(()=>{
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    }
+    const onBeforeInstall=(e)=>{e.preventDefault();setDeferredPrompt(e);};
+    window.addEventListener('beforeinstallprompt',onBeforeInstall);
+    // Check if already installed
+    if(window.matchMedia('(display-mode: standalone)').matches) setIsInstalled(true);
+    window.addEventListener('appinstalled',()=>setIsInstalled(true));
+    return()=>window.removeEventListener('beforeinstallprompt',onBeforeInstall);
+  },[]);
+
+  const handleInstallClick=async()=>{
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      const result=await deferredPrompt.userChoice;
+      if(result.outcome==='accepted') setIsInstalled(true);
+      setDeferredPrompt(null);
+    }
+  };
 
   // Keyboard shortcut for search
   useEffect(()=>{
@@ -1126,12 +1150,26 @@ export default function App(){
           <button onClick={()=>toast2("Community chat coming at full launch! 🚀")} style={{background:`linear-gradient(135deg,${COLORS.rose},${COLORS.accent})`,border:"none",color:"#fff",padding:"10px 22px",borderRadius:9,cursor:"pointer",fontSize:13,fontWeight:700}}>Join the Community →</button>
         </div>
 
-        {/* App Store Links */}
+        {/* App Store / PWA Install Section */}
         <div style={{marginTop:40,background:`linear-gradient(145deg,${COLORS.card},${COLORS.accent}0a)`,border:`1px solid ${COLORS.accent}44`,borderRadius:18,padding:"36px 28px",textAlign:"center",position:"relative",overflow:"hidden"}}>
           <div style={{position:"absolute",top:0,left:0,width:"100%",height:"100%",background:`radial-gradient(ellipse at top,${COLORS.accent}08 0%,transparent 60%)`,pointerEvents:"none"}}/>
           <div style={{fontSize:36,marginBottom:12}}>📱</div>
           <div style={{fontFamily:FONTS.heading,fontSize:22,fontWeight:900,marginBottom:8,color:COLORS.text}}>Get <span style={{color:COLORS.accent}}>HXConnect</span> on Mobile</div>
-          <div style={{fontSize:13,color:COLORS.muted,maxWidth:400,margin:"0 auto 24px",lineHeight:1.6}}>Stay connected with your healthcare community on the go. Access jobs, chat, resources, and networking — all from your phone.</div>
+          <div style={{fontSize:13,color:COLORS.muted,maxWidth:400,margin:"0 auto 24px",lineHeight:1.6}}>Install HXConnect directly to your phone — no app store needed. Works offline, launches instantly, and stays on your home screen just like a native app.</div>
+
+          {/* Install App Button */}
+          {isInstalled?(
+            <div style={{display:"inline-flex",alignItems:"center",gap:8,background:COLORS.green+"18",border:`1px solid ${COLORS.green}44`,borderRadius:12,padding:"14px 28px",marginBottom:20}}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill={COLORS.green}><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-2 15l-5-5 1.41-1.41L8 12.17l7.59-7.59L17 6l-9 9z"/></svg>
+              <span style={{fontWeight:700,fontSize:14,color:COLORS.green}}>App Installed</span>
+            </div>
+          ):(
+            <button onClick={deferredPrompt?handleInstallClick:()=>toast2("Open this site in Chrome or Safari, then tap \"Add to Home Screen\" in your browser menu")} style={{display:"inline-flex",alignItems:"center",gap:10,background:`linear-gradient(135deg,${COLORS.accent},${COLORS.gold})`,border:"none",borderRadius:12,padding:"14px 32px",cursor:"pointer",marginBottom:20,transition:"transform 0.2s,box-shadow 0.2s",boxShadow:`0 4px 20px ${COLORS.accent}33`}} onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow=`0 6px 28px ${COLORS.accent}55`;}} onMouseLeave={e=>{e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow=`0 4px 20px ${COLORS.accent}33`;}}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              <span style={{fontWeight:800,fontSize:15,color:"#fff",letterSpacing:0.3}}>Install App</span>
+            </button>
+          )}
+
           <div style={{display:"flex",gap:16,justifyContent:"center",flexWrap:"wrap"}}>
             <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:10,background:COLORS.surface,border:`1px solid ${COLORS.border}`,borderRadius:12,padding:"12px 24px",cursor:"pointer",textDecoration:"none",transition:"border-color 0.2s,transform 0.2s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=COLORS.accent;e.currentTarget.style.transform="translateY(-2px)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=COLORS.border;e.currentTarget.style.transform="translateY(0)";}}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill={COLORS.text}><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
@@ -1148,7 +1186,8 @@ export default function App(){
               </div>
             </a>
           </div>
-          <div style={{marginTop:16,fontSize:11,color:COLORS.mutedDim}}>Coming soon — Join the waitlist to get notified</div>
+          <div style={{marginTop:16,fontSize:11,color:COLORS.mutedDim,lineHeight:1.6}}>Native app store listings coming soon — <strong style={{color:COLORS.muted}}>Install now</strong> as a PWA for the full experience</div>
+          <div style={{marginTop:8,fontSize:10,color:COLORS.mutedDim}}>Works on iOS (Safari), Android (Chrome), Windows & Mac</div>
         </div>
       </div>
 
